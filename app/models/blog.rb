@@ -13,6 +13,8 @@ class Blog < ApplicationRecord
 
   scope :default_order, -> { order(id: :desc) }
 
+  scope :except_others_secret, ->(user) { where(secret: false).or(where(user: user)) }
+
   def owned_by?(target_user)
     user == target_user
   end
