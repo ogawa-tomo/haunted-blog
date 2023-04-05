@@ -7,6 +7,8 @@ class Blog < ApplicationRecord
 
   validates :title, :content, presence: true
 
+  validate :check_random_eyecatch_privilege
+
   scope :published, -> { where('secret = FALSE') }
 
   scope :search, ->(term) { where('title LIKE ?', "%#{sanitize_sql_like(term || '')}%").or(where('content LIKE ?', "%#{sanitize_sql_like(term || '')}%")) }
@@ -17,5 +19,11 @@ class Blog < ApplicationRecord
 
   def owned_by?(target_user)
     user == target_user
+  end
+
+  private
+
+  def check_random_eyecatch_privilege
+    update(random_eyecatch: false) if random_eyecatch && !user.premium
   end
 end
