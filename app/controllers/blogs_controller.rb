@@ -45,7 +45,7 @@ class BlogsController < ApplicationController
   private
 
   def set_blog
-    @blog = Blog.except_others_secret(current_user).find(params[:id])
+    @blog = Blog.published_or_users_own(current_user).find(params[:id])
   end
 
   def set_current_user_blog
