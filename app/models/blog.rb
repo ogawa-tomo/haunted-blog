@@ -7,7 +7,7 @@ class Blog < ApplicationRecord
 
   validates :title, :content, presence: true
 
-  validate :check_random_eyecatch_privilege
+  before_save :check_random_eyecatch_privilege
 
   scope :published, -> { where('secret = FALSE') }
 
@@ -24,6 +24,6 @@ class Blog < ApplicationRecord
   private
 
   def check_random_eyecatch_privilege
-    update(random_eyecatch: false) if random_eyecatch && !user.premium
+    self.random_eyecatch = false if random_eyecatch && !user.premium
   end
 end
