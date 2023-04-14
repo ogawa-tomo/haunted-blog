@@ -7,7 +7,7 @@ class Blog < ApplicationRecord
 
   validates :title, :content, presence: true
 
-  before_save :check_random_eyecatch_privilege
+  validate :check_random_eyecatch_privilege
 
   scope :published, -> { where('secret = FALSE') }
 
@@ -27,6 +27,6 @@ class Blog < ApplicationRecord
   private
 
   def check_random_eyecatch_privilege
-    self.random_eyecatch = false if random_eyecatch && !user.premium
+    errors.add(:random_eyecatch, '通常ユーザーはアイキャッチを設定できません') if random_eyecatch && !user.premium
   end
 end
