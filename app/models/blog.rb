@@ -27,6 +27,6 @@ class Blog < ApplicationRecord
   private
 
   def check_random_eyecatch_privilege
-    errors.add(:random_eyecatch, '通常ユーザーはアイキャッチを設定できません') if random_eyecatch && !user.premium
+    errors.add(:random_eyecatch, :unauthorized) if random_eyecatch && !user.premium
   end
 end
