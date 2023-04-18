@@ -2,6 +2,6 @@
 
 module BlogsHelper
   def format_content(blog)
-    ActiveSupport::SafeBuffer.new(blog.content.split("\n").map { |line| h(line) }.join('<br>'))
+    simple_format(h(blog.content))
   end
 end
